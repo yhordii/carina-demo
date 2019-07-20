@@ -85,6 +85,7 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>3.0.0-M3</version>
         <configuration>
+          <argLine>-Dfile.encoding=${project.build.sourceEncoding}</argLine>
           <useSystemClassLoader>false</useSystemClassLoader>
           <suiteXmlFiles>
             <suiteXmlFile>${project.build.directory}/test-classes/testng_suites/${suite}.xml</suiteXmlFile>
