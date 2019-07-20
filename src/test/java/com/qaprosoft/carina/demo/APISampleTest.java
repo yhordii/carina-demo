@@ -38,6 +38,7 @@ public class APISampleTest extends AbstractTest {
     @Test(description = "JIRA#DEMO-0001")
     @MethodOwner(owner = "qpsdemo")
     public void testCreateUser() throws Exception {
+        LOGGER.info("glyphs: " + "緑");
         setCases("4555,54545");
         PostUserMethod api = new PostUserMethod();
         api.expectResponseStatus(HttpResponseStatusType.CREATED_201);
