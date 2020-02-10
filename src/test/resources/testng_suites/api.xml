@@ -10,6 +10,7 @@
 	<parameter name="zafira_project" value="UNKNOWN"/>
 	<parameter name="jenkinsJobName" value="API-Demo-Test"/>
 	<parameter name="jenkinsJobType" value="appletv"/>
+	<parameter name="jenkinsNodeLabel" value="jenkins-slave-api"/>
 
 	<!-- Example howto override default job thread_count via jobDSL parameter -->
 	<parameter name="jenkinsDefaultThreadCount" value="3"/>
