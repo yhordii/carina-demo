@@ -9,7 +9,7 @@
 	<parameter name="suiteOwner" value="qpsdemo"/>
 	<parameter name="zafira_project" value="UNKNOWN"/>
 	<parameter name="jenkinsJobName" value="API-Demo-Test"/>
-	<parameter name="jenkinsJobType" value="api"/>
+	<parameter name="jenkinsJobType" value="appletv"/>
 
 	<!-- Example howto override default job thread_count via jobDSL parameter -->
 	<parameter name="jenkinsDefaultThreadCount" value="3"/>
