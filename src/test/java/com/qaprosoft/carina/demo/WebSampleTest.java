@@ -17,9 +17,8 @@ package com.qaprosoft.carina.demo;
 
 import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.qaprosoft.carina.core.foundation.AbstractTest;
@@ -28,12 +27,10 @@ import com.qaprosoft.carina.core.foundation.utils.tag.Priority;
 import com.qaprosoft.carina.core.foundation.utils.tag.TestPriority;
 import com.qaprosoft.carina.core.foundation.utils.tag.TestTag;
 import com.qaprosoft.carina.demo.gui.components.FooterMenu;
-import com.qaprosoft.carina.demo.gui.components.NewsItem;
 import com.qaprosoft.carina.demo.gui.components.compare.ModelSpecs;
 import com.qaprosoft.carina.demo.gui.components.compare.ModelSpecs.SpecType;
 import com.qaprosoft.carina.demo.gui.pages.CompareModelsPage;
 import com.qaprosoft.carina.demo.gui.pages.HomePage;
-import com.qaprosoft.carina.demo.gui.pages.NewsPage;
 
 /**
  * This sample shows how create Web test.
@@ -42,11 +39,11 @@ import com.qaprosoft.carina.demo.gui.pages.NewsPage;
  */
 public class WebSampleTest extends AbstractTest {
 
-    @Test(description = "JIRA#AUTO-0009", invocationCount = 200, threadPoolSize = 100)
+    @Test(dataProvider = "DP100")
     @MethodOwner(owner = "qpsdemo")
     @TestPriority(Priority.P1)
     @TestTag(name = "area test", value = "web")
-    public void testCompareModels() {
+    public void testCompareModels(int num) {
         // Open GSM Arena home page and verify page is opened
         HomePage homePage = new HomePage(getDriver());
         homePage.open();
@@ -61,6 +58,113 @@ public class WebSampleTest extends AbstractTest {
         Assert.assertEquals(specs.get(0).readSpec(SpecType.ANNOUNCED), "2015, November");
         Assert.assertEquals(specs.get(1).readSpec(SpecType.ANNOUNCED), "2015, June");
         Assert.assertEquals(specs.get(2).readSpec(SpecType.ANNOUNCED), "2017, June");
+    }
+    
+    
+    @DataProvider(parallel = true, name = "DP100")
+    public static Object[][] dataprovider() {
+        return new Object[][]{
+                {1},
+                {2},
+                {3},
+                {4},
+                {5},
+                {6},
+                {7},
+                {8},
+                {9},
+                {10},
+                {11},
+                {12},
+                {13},
+                {14},
+                {15},
+                {16},
+                {17},
+                {18},
+                {19},
+                {20},
+                {21},
+                {22},
+                {23},
+                {24},
+                {25},
+                {26},
+                {27},
+                {28},
+                {29},
+                {30},
+                {31},
+                {32},
+                {33},
+                {34},
+                {35},
+                {36},
+                {37},
+                {38},
+                {39},
+                {40},
+                {41},
+                {42},
+                {43},
+                {44},
+                {45},
+                {46},
+                {47},
+                {48},
+                {49},
+                {50},
+                {51},
+                {52},
+                {53},
+                {54},
+                {55},
+                {56},
+                {57},
+                {58},
+                {59},
+                {60},
+                {61},
+                {62},
+                {63},
+                {64},
+                {65},
+                {66},
+                {67},
+                {68},
+                {69},
+                {70},
+                {71},
+                {72},
+                {73},
+                {74},
+                {75},
+                {76},
+                {77},
+                {78},
+                {79},
+                {80},
+                {81},
+                {82},
+                {83},
+                {84},
+                {85},
+                {86},
+                {87},
+                {88},
+                {89},
+                {90},
+                {91},
+                {92},
+                {93},
+                {94},
+                {95},
+                {96},
+                {97},
+                {98},
+                {99},
+                {100}                
+                };
     }
 
 }
