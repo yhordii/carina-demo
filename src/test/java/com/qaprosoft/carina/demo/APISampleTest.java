@@ -15,6 +15,7 @@
  */
 package com.qaprosoft.carina.demo;
 
+import org.apache.log4j.Logger;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.annotations.Test;
 
@@ -34,6 +35,7 @@ import com.qaprosoft.carina.demo.api.PostUserMethod;
  * @author qpsdemo
  */
 public class APISampleTest extends AbstractTest {
+	private static final Logger LOGGER = Logger.getLogger(APISampleTest.class);
 
     @Test(description = "JIRA#DEMO-0001")
     @MethodOwner(owner = "qpsdemo")
