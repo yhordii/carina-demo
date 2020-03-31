@@ -15,12 +15,17 @@
  */
 package com.qaprosoft.carina.demo;
 
+import java.io.File;
+import java.io.IOException;
+
+import org.apache.commons.io.FileUtils;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.testng.annotations.Test;
 
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.AbstractTest;
 import com.qaprosoft.carina.core.foundation.api.http.HttpResponseStatusType;
+import com.qaprosoft.carina.core.foundation.report.ReportContext;
 import com.qaprosoft.carina.core.foundation.utils.ownership.MethodOwner;
 import com.qaprosoft.carina.core.foundation.utils.tag.Priority;
 import com.qaprosoft.carina.core.foundation.utils.tag.TestPriority;
@@ -43,6 +48,11 @@ public class APISampleTest extends AbstractTest {
         api.expectResponseStatus(HttpResponseStatusType.CREATED_201);
         api.callAPI();
         api.validateResponse();
+        
+        art("video.mp4");
+        art("text.txt");
+        art("log.log");
+        art("pdf.pdf");
     }
 
     @Test(description = "JIRA#DEMO-0002")
@@ -76,4 +86,14 @@ public class APISampleTest extends AbstractTest {
         deleteUserMethod.validateResponse();
     }
 
+    
+    private void art(String fileName) {
+    	String filePath = ReportContext.getArtifactsFolder().getAbsolutePath() + File.separator + fileName;
+        try {
+            File file = new File(filePath);
+            FileUtils.writeStringToFile(file, "file content line");
+        } catch (IOException e) {
+            //LOGGER.warn("Error has been occurred during artifact generation: " + fileName, e);
+        }
+    }
 }
