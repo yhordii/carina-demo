@@ -17,12 +17,14 @@
 	
 	<!-- Example howto override default job thread_count via jobDSL parameter -->
 	<parameter name="jenkinsDefaultThreadCount" value="10"/>
+	<parameter name="data-provider-thread-count" value="1"/>
 
 	<parameter name="jenkinsRegressionPipeline" value="Carina-Demo-Regression-Pipeline"/>
 	<parameter name="jenkinsPipelineEnvironments" value="DEMO"/>
 
 	<parameter name="jenkinsPipelineBrowsers" value="browser: chrome; browser: firefox"/>
 	<parameter name="jenkinsJobExecutionOrder" value="1"/>
+	
 	<parameter name="jenkinsJobExecutionMode" value="continue"/>
 
 	<test name="GSM arena web tests">
