@@ -1,0 +1,8 @@
+reporting:
+  enabled: true
+  server:
+    hostname: https://stage.qaprosoft.farm
+    access-token: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyIiwicGFzc3dvcmQiOiJGYzVHY1EwMVZsUUtTaWF4WDVVbjJEdDZab01wMTdmdiIsInRlbmFudCI6InN0YWdlIiwiaXNzIjoiaWFtIiwiZXhwIjozNzU1MDc4MjE5fQ.8L_3-KWGNGyoD6kj4iRpQb6wjMoqKT6rmNbNcO1vRwtwyDWdxx4EfbQiXJDPk88a8RsGwSYCe7SoYIJPsekCAg
+  run:
+    environment: local
+    display-name: WebSampleSingleDriver
