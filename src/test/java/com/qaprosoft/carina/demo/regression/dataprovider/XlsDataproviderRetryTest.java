@@ -31,7 +31,7 @@ import com.qaprosoft.carina.core.foundation.utils.ownership.MethodOwner;
 public class XlsDataproviderRetryTest extends AbstractTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     
-    @Test(dataProvider = "DataProvider")
+    @Test(dataProvider = "SingleDataProvider")
     @MethodOwner(owner = "qpsdemo")
     @XlsDataSourceParameters(path = "xls/demo.xlsx", sheet = "Data", dsUid = "TestTitle", dsArgs = "Args")
     public void testMethod(String arg) {
