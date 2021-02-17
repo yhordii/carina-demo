@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2018 QAPROSOFT (http://qaprosoft.com/).
+ * Copyright 2013-2021 QAPROSOFT (http://qaprosoft.com/).
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -66,8 +66,6 @@ public class WebSampleTest extends AbstractTest {
         // Verify model announced dates
         Assert.assertEquals(specs.get(0).readSpec(SpecType.ANNOUNCED), "2016, March 31");
         Assert.assertEquals(specs.get(1).readSpec(SpecType.ANNOUNCED), "2015, June 19");
-        //Assert.assertEquals(specs.get(2).readSpec(SpecType.ANNOUNCED), "2017, June");
-        
         
         //return to News 
         NewsPage newsPage = homePage2.getFooterMenu().openNewsPage();
