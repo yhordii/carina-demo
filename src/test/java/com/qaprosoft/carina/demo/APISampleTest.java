@@ -32,6 +32,7 @@ import com.qaprosoft.carina.demo.api.DeleteUserMethod;
 import com.qaprosoft.carina.demo.api.GetUserMethods;
 import com.qaprosoft.carina.demo.api.PostUserMethod;
 import com.zebrunner.agent.core.annotation.TestLabel;
+import com.zebrunner.agent.core.registrar.Label;
 
 /**
  * This sample shows how create REST API tests.
@@ -46,6 +47,7 @@ public class APISampleTest extends AbstractTest {
     @Test(description = "JIRA#DEMO-0001")
     @MethodOwner(owner = "qpsdemo")
     public void testCreateUser() throws Exception {
+        Label.attachToTestRun("com.zebrunner.app/tcm.xray.test-execution-key", "XTEST1-211");
         LOGGER.info("test");
         setCases("4555,54545");
         PostUserMethod api = new PostUserMethod();
