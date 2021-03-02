@@ -43,11 +43,11 @@ public class APISampleTest extends AbstractTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     
 
-    @TestLabel(name = "com.zebrunner.app/tcm.xray.test-key", value = {"XTEST1-4"})
+    @TestLabel(name = "com.zebrunner.app/tcm.xray.test-key", value = {"XTEST1-211"})
     @Test(description = "JIRA#DEMO-0001")
     @MethodOwner(owner = "qpsdemo")
     public void testCreateUser() throws Exception {
-        Label.attachToTestRun("com.zebrunner.app/tcm.xray.test-execution-key", "XTEST1-211");
+        Label.attachToTestRun("com.zebrunner.app/tcm.xray.test-execution-key", "XTEST1-4");
         LOGGER.info("test");
         setCases("4555,54545");
         PostUserMethod api = new PostUserMethod();
