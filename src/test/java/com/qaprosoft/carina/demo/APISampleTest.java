@@ -17,9 +17,11 @@ package com.qaprosoft.carina.demo;
 
 import java.lang.invoke.MethodHandles;
 
+import com.zebrunner.agent.core.registrar.Artifact;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
@@ -38,8 +40,8 @@ import com.qaprosoft.carina.demo.api.PostUserMethod;
  * @author qpsdemo
  */
 public class APISampleTest extends AbstractTest {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-    
 
     @Test(description = "JIRA#DEMO-0001")
     @MethodOwner(owner = "qpsdemo")
@@ -81,6 +83,17 @@ public class APISampleTest extends AbstractTest {
         deleteUserMethod.expectResponseStatus(HttpResponseStatusType.OK_200);
         deleteUserMethod.callAPI();
         deleteUserMethod.validateResponse();
+    }
+
+    private static int i = 0;
+
+    @AfterMethod(alwaysRun = true)
+    public void after() {
+        i++;
+        LOGGER.info("after method: " + i);
+//        File f = new File("C:\\Tools\\qaprosoft\\carina-demo\\111.txt");
+//        Artifact.attachToTest("attach", f);
+        Artifact.attachReferenceToTest("url", "value");
     }
 
 }
