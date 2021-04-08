@@ -1,4 +1,4 @@
-<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite verbose="1" name="Carina Demo Tests - Web Sample" parallel="methods">
 
 	<parameter name="suiteOwner" value="qpsdemo"/>
@@ -14,6 +14,7 @@
 	<parameter name="jenkinsRegressionMatrix_full_regression" value="browser: chrome; browser: firefox; browser: opera"/>
 	<parameter name="jenkinsJobExecutionOrder" value="1"/>
 	<parameter name="jenkinsJobExecutionMode" value="continue"/>
+	<parameter name="jenkinsAutoScreenshot" value="true"/>
 
 	<test name="GSM arena web tests">
 		<classes>

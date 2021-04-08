@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2018 QAPROSOFT (http://qaprosoft.com/).
+ * Copyright 2013-2021 QAPROSOFT (http://qaprosoft.com/).
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,24 +31,26 @@ public class WikipediaHomePage extends AbstractPage {
     @FindBy(id = "js-lang-list-button")
     private ExtendedWebElement langListBtn;
 
-    @FindBy(id = "{L10N:HomePage.welcomeTextId}")
-    private ExtendedWebElement welcomeText;
-
     public WikipediaHomePage(WebDriver driver) {
         super(driver);
         setPageAbsoluteURL("https://www.wikipedia.org/");
     }
 
-    public String getWelcomeText() {
-        langListBtn.clickIfPresent();
+    public WikipediaLocalePage goToWikipediaLocalePage(WebDriver driver) {
+        openLangList();
         if (!langList.isEmpty()) {
             for (ExtendedWebElement languageBtn : langList) {
                 if (languageBtn.getAttribute("lang").equals(L10N.getDefaultLocale().getLanguage())) {
                     languageBtn.click();
-                    return welcomeText.getText();
+                    return new WikipediaLocalePage(driver);
                 }
             }
         }
-        return null;
+        throw new RuntimeException("No language ref was found");
     }
+
+    public void openLangList() {
+        langListBtn.clickIfPresent();
+    }
+
 }

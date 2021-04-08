@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2018 QAPROSOFT (http://qaprosoft.com/).
+ * Copyright 2013-2021 QAPROSOFT (http://qaprosoft.com/).
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,11 @@
  */
 package com.qaprosoft.carina.demo.gui.pages;
 
+import java.lang.invoke.MethodHandles;
 import java.util.List;
 
+import com.qaprosoft.carina.core.foundation.utils.Configuration;
+import com.qaprosoft.carina.core.foundation.utils.R;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.slf4j.Logger;
@@ -27,8 +30,9 @@ import com.qaprosoft.carina.core.gui.AbstractPage;
 import com.qaprosoft.carina.demo.gui.components.FooterMenu;
 import com.qaprosoft.carina.demo.gui.components.WeValuePrivacyAd;
 
+
 public class HomePage extends AbstractPage {
-    private static final Logger LOGGER = LoggerFactory.getLogger(HomePage.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     
     @FindBy(id = "footmenu")
     private FooterMenu footerMenu;
@@ -36,8 +40,13 @@ public class HomePage extends AbstractPage {
     @FindBy(xpath = "//div[contains(@class, 'brandmenu-v2')]//a")
     private List<ExtendedWebElement> brandLinks;
 
+    @FindBy(className = "news-column-index")
+    private ExtendedWebElement newsColumn;
+
     public HomePage(WebDriver driver) {
         super(driver);
+        setUiLoadedMarker(newsColumn);
+        setPageAbsoluteURL(R.CONFIG.get(Configuration.Parameter.URL.getKey()));
     }
 
     public FooterMenu getFooterMenu() {
