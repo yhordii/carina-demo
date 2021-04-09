@@ -20,6 +20,7 @@ import java.lang.invoke.MethodHandles;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
@@ -45,14 +46,15 @@ public class APISampleTest extends AbstractTest {
     @MethodOwner(owner = "qpsdemo")
     public void testCreateUser() throws Exception {
         LOGGER.info("test");
-        setCases("4555,54545");
-        PostUserMethod api = new PostUserMethod();
-        api.expectResponseStatus(HttpResponseStatusType.CREATED_201);
-        api.callAPI();
-        api.validateResponse();
+		Assert.fail("true");
+		// setCases("4555,54545");
+		// PostUserMethod api = new PostUserMethod();
+		// api.expectResponseStatus(HttpResponseStatusType.CREATED_201);
+		// api.callAPI();
+		// api.validateResponse();
     }
 
-    @Test(description = "JIRA#DEMO-0002")
+	// @Test(description = "JIRA#DEMO-0002")
     @MethodOwner(owner = "qpsdemo")
     public void testCreateUserMissingSomeFields() throws Exception {
         PostUserMethod api = new PostUserMethod();
@@ -63,7 +65,7 @@ public class APISampleTest extends AbstractTest {
         api.validateResponse();
     }
 
-    @Test(description = "JIRA#DEMO-0003")
+	// @Test(description = "JIRA#DEMO-0003")
     @MethodOwner(owner = "qpsdemo")
     public void testGetUsers() {
         GetUserMethods getUsersMethods = new GetUserMethods();
@@ -73,7 +75,7 @@ public class APISampleTest extends AbstractTest {
         getUsersMethods.validateResponseAgainstSchema("api/users/_get/rs.schema");
     }
 
-    @Test(description = "JIRA#DEMO-0004")
+	// @Test(description = "JIRA#DEMO-0004")
     @MethodOwner(owner = "qpsdemo")
     @TestPriority(Priority.P1)
     public void testDeleteUsers() {

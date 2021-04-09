@@ -17,7 +17,7 @@
 		<carina-cucumber_version>7.0.2</carina-cucumber_version>
 		<java.version>11</java.version>
 		<spring-boot.version>2.2.2.RELEASE</spring-boot.version>
-		<zebrunner-agent.version>1.4.0</zebrunner-agent.version>
+		<zebrunner-agent.version>LOCAL</zebrunner-agent.version>
 		<suite>helloWorld</suite>
 	</properties>
 
@@ -51,6 +51,12 @@
 			<groupId>com.qaprosoft</groupId>
 			<artifactId>carina-core</artifactId>
 			<version>${carina-core_version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.zebrunner</groupId>
+					<artifactId>agent-testng-pluggable</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.qaprosoft</groupId>
@@ -118,6 +124,12 @@
 					<artifactId>android-json</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.zebrunner</groupId>
+			<artifactId>agent-testng</artifactId>
+			<version>${zebrunner-agent.version}</version>
 		</dependency>
 	</dependencies>
 
