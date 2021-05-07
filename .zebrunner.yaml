@@ -1,0 +1,31 @@
+version: 1.0
+templates:
+  - name: maven-java-11
+    spec:
+      environment:
+        dockerImage: maven:3.8.1-openjdk-11
+        command: mvn clean test --no-transfer-progress -Dsuite=${SUITE}
+      parameters:
+        env:
+          - name: REPORTING_RUN_BUILD
+            defaultValue: 1.23.1
+            type: string
+launchers:
+  - name: API-Demo-Test
+    template: maven-java-11
+    parameters:
+      commandVars:
+        - name: SUITE
+          defaultValue: api
+  - name: Web-Demo-Test
+    template: maven-java-11
+    parameters:
+      commandVars:
+        - name: SUITE
+          defaultValue: web
+  - name: API-DataProvider-Retry
+    template: maven-java-11
+    parameters:
+      commandVars:
+        - name: SUITE
+          defaultValue: regression/dataprovider-retry
