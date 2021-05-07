@@ -3,29 +3,76 @@ templates:
   - name: maven-java-11
     spec:
       environment:
-        dockerImage: maven:3.8.1-openjdk-11
-        command: mvn clean test --no-transfer-progress -Dsuite=${SUITE}
+        dockerImage: siarheibranko/maven:3.8.1-amazoncorretto-11
+        command: mvn clean test --no-transfer-progress -Dsuite=${SUITE} -Dthread_count=${THREAD_COUNT}
       parameters:
         env:
           - name: REPORTING_RUN_BUILD
             defaultValue: 1.23.1
             type: string
+          - name: THREAD_COUNT
+            defaultValue: 1
+            type: integer
+
+
 launchers:
-  - name: API-Demo-Test
+  - name: API
     template: maven-java-11
     parameters:
-      commandVars:
+      env:
         - name: SUITE
           defaultValue: api
-  - name: Web-Demo-Test
+
+
+  - name: WEB
     template: maven-java-11
     parameters:
-      commandVars:
+      env:
         - name: SUITE
           defaultValue: web
-  - name: API-DataProvider-Retry
+          type: choice
+          values:
+            - web
+            - web-localization
+            - web-single-driver
+            - web-multiple-browser
+            - cucumber-web
+            - proxy
+    presets:
+      - name: cucumber
+        seleniumGrid:
+          type: ZEBRUNNER
+        parameters:
+          env:
+            - name: SUITE
+              value: cucumber-web
+          capabilities:
+            - name: browserName
+              value: opera
+
+
+  - name: Mobile
     template: maven-java-11
     parameters:
-      commandVars:
+      env:
+        - name: SUITE
+          defaultValue: android
+          type: choice
+          values:
+            - android
+            - ios
+
+
+  - name: Regression
+    template: maven-java-11
+    parameters:
+      env:
         - name: SUITE
           defaultValue: regression/dataprovider-retry
+          type: choice
+          values:
+            - regression/dataprovider-retry
+            - regression/xsl-dataprovider-retry
+            - regression/dataprovider-multiply-classes
+        - name: THREAD_COUNT
+          defaultValue: 5
