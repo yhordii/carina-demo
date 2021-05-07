@@ -18,8 +18,10 @@ package com.qaprosoft.carina.demo;
 import java.util.List;
 
 import com.zebrunner.agent.core.annotation.TestLabel;
+import com.zebrunner.agent.core.webdriver.RemoteWebDriverFactory;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -68,6 +70,10 @@ public class WebSampleTest extends AbstractTest {
         Assert.assertEquals(productInfoPage.readBattery(), "4500mAh", "Invalid battery info!");
     }
 
+    @Override
+    public WebDriver getDriver() {
+        return RemoteWebDriverFactory.getDriver();
+    }
 
     @Test(description = "JIRA#AUTO-0009")
     @MethodOwner(owner = "qpsdemo")
