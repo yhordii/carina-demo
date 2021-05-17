@@ -21,6 +21,7 @@ import com.qaprosoft.carina.core.foundation.IAbstractTest;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
@@ -50,6 +51,7 @@ public class APISampleTest implements IAbstractTest {
         api.expectResponseStatus(HttpResponseStatusType.CREATED_201);
         api.callAPI();
         api.validateResponse();
+        Assert.fail("concrete business error!");
     }
 
     @Test(description = "JIRA#DEMO-0002")
