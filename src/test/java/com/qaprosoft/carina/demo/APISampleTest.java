@@ -47,11 +47,19 @@ public class APISampleTest implements IAbstractTest {
     public void testCreateUser() throws Exception {
         LOGGER.info("test");
         setCases("4555,54545");
+        Assert.fail("something wrong!");
         PostUserMethod api = new PostUserMethod();
         api.expectResponseStatus(HttpResponseStatusType.CREATED_201);
         api.callAPI();
         api.validateResponse();
-        Assert.fail("concrete business error!");
+        // #1-4
+        //Assert.fail("something wrong!");
+        
+        // #5 -> modify PostUserMethod constructor
+        
+        // step #6
+        //String s = null;
+        //s.length();
     }
 
     @Test(description = "JIRA#DEMO-0002")
