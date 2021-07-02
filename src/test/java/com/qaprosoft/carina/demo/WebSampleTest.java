@@ -15,7 +15,16 @@
  */
 package com.qaprosoft.carina.demo;
 
-import com.qaprosoft.carina.core.foundation.AbstractTest;
+import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
+
+import com.qaprosoft.carina.core.foundation.IAbstractTest;
+import com.zebrunner.agent.core.annotation.TestLabel;
 import com.qaprosoft.carina.core.foundation.utils.ownership.MethodOwner;
 import com.qaprosoft.carina.core.foundation.utils.tag.Priority;
 import com.qaprosoft.carina.core.foundation.utils.tag.TestPriority;
@@ -28,65 +37,48 @@ import com.qaprosoft.carina.demo.gui.pages.CompareModelsPage;
 import com.qaprosoft.carina.demo.gui.pages.HomePage;
 import com.qaprosoft.carina.demo.gui.pages.ModelInfoPage;
 import com.qaprosoft.carina.demo.gui.pages.NewsPage;
-import com.zebrunner.agent.core.annotation.TestLabel;
-import com.zebrunner.agent.core.webdriver.RemoteWebDriverFactory;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
-import org.testng.annotations.Test;
-
-import java.util.List;
 
 /**
  * This sample shows how create Web test.
  *
  * @author qpsdemo
  */
-public class WebSampleTest extends AbstractTest {
-    @Test(description = "JIRA#AUTO-0008")
+public class WebSampleTest implements IAbstractTest {
+    @Test()
     @MethodOwner(owner = "qpsdemo")
     @TestPriority(Priority.P3)
     @TestLabel(name = "feature", value = {"web", "regression"})
     public void testModelSpecs() {
-        WebDriver driver = getDriver();
-
         // Open GSM Arena home page and verify page is opened
-        HomePage homePage = new HomePage(driver);
+        HomePage homePage = new HomePage(getDriver());
         homePage.open();
         Assert.assertTrue(homePage.isPageOpened(), "Home page is not opened");
-
+        
         //Closing advertising if it's displayed
         homePage.getWeValuePrivacyAd().closeAdIfPresent();
-
+        
         // Select phone brand
-        homePage = new HomePage(driver);
+        homePage = new HomePage(getDriver());
         BrandModelsPage productsPage = homePage.selectBrand("Samsung");
         // Select phone model
         ModelInfoPage productInfoPage = productsPage.selectModel("Galaxy A52 5G");
         // Verify phone specifications
-        Assert.assertEquals(productInfoPage.readDisplay(), "6.5\"", "Invalid display info!");
-        Assert.assertEquals(productInfoPage.readCamera(), "64MP", "Invalid camera info!");
-        Assert.assertEquals(productInfoPage.readRam(), "6/8GB RAM", "Invalid ram info!");
-        Assert.assertEquals(productInfoPage.readBattery(), "4500mAh", "Invalid battery info!");
-
-        driver.quit();
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertEquals(productInfoPage.readDisplay(), "6.5\"", "Invalid display info!");
+        softAssert.assertEquals(productInfoPage.readCamera(), "64MP", "Invalid camera info!");
+        softAssert.assertEquals(productInfoPage.readRam(), "6/8GB RAM", "Invalid ram info!");
+        softAssert.assertEquals(productInfoPage.readBattery(), "4500mAh", "Invalid battery info!");
+        softAssert.assertAll();
     }
 
-    @Override
-    public WebDriver getDriver() {
-        return RemoteWebDriverFactory.getDriver();
-    }
 
-    @Test(description = "JIRA#AUTO-0009")
+    @Test()
     @MethodOwner(owner = "qpsdemo")
     @TestPriority(Priority.P1)
     @TestLabel(name = "feature", value = {"web", "acceptance"})
     public void testCompareModels() {
-        WebDriver driver = getDriver();
-
         // Open GSM Arena home page and verify page is opened
-        HomePage homePage = new HomePage(driver);
+        HomePage homePage = new HomePage(getDriver());
         homePage.open();
         Assert.assertTrue(homePage.isPageOpened(), "Home page is not opened");
         // Open model compare page
@@ -94,38 +86,36 @@ public class WebSampleTest extends AbstractTest {
         Assert.assertTrue(footerMenu.isUIObjectPresent(2), "Footer menu wasn't found!");
         CompareModelsPage comparePage = footerMenu.openComparePage();
         // Compare 3 models
-        List<ModelSpecs> specs = comparePage
-                .compareModels("Samsung Galaxy J3", "Samsung Galaxy J5", "Samsung Galaxy J7 Pro");
+        List<ModelSpecs> specs = comparePage.compareModels("Samsung Galaxy J3", "Samsung Galaxy J5", "Samsung Galaxy J7 Pro");
         // Verify model announced dates
-        Assert.assertEquals(specs.get(0).readSpec(SpecType.ANNOUNCED), "2016, March 31");
-        Assert.assertEquals(specs.get(1).readSpec(SpecType.ANNOUNCED), "2015, June 19");
-        Assert.assertEquals(specs.get(2).readSpec(SpecType.ANNOUNCED), "2017, June");
-
-        driver.quit();
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertEquals(specs.get(0).readSpec(SpecType.ANNOUNCED), "2016, March 31");
+        softAssert.assertEquals(specs.get(1).readSpec(SpecType.ANNOUNCED), "2015, June 19");
+        softAssert.assertEquals(specs.get(2).readSpec(SpecType.ANNOUNCED), "2017, June");
+        softAssert.assertAll();
     }
-
-    @Test(description = "JIRA#AUTO-0010")
+    
+    @Test()
     @MethodOwner(owner = "qpsdemo")
     @TestLabel(name = "feature", value = {"web", "acceptance"})
     public void testNewsSearch() {
-        WebDriver driver = getDriver();
-
-        HomePage homePage = new HomePage(driver);
+        HomePage homePage = new HomePage(getDriver());
         homePage.open();
         Assert.assertTrue(homePage.isPageOpened(), "Home page is not opened!");
-
+        
         NewsPage newsPage = homePage.getFooterMenu().openNewsPage();
         Assert.assertTrue(newsPage.isPageOpened(), "News page is not opened!");
-
+        
         final String searchQ = "iphone";
         List<NewsItem> news = newsPage.searchNews(searchQ);
         Assert.assertFalse(CollectionUtils.isEmpty(news), "News not found!");
-        for (NewsItem n : news) {
+        SoftAssert softAssert = new SoftAssert();
+        for(NewsItem n : news) {
             System.out.println(n.readTitle());
-            Assert.assertTrue(StringUtils.containsIgnoreCase(n.readTitle(), searchQ), "Invalid search results!");
+            softAssert.assertTrue(StringUtils.containsIgnoreCase(n.readTitle(), searchQ),
+                    "Invalid search results for " + n.readTitle());
         }
-
-        driver.quit();
+        softAssert.assertAll();
     }
 
 }
