@@ -20,6 +20,7 @@ import java.util.List;
 
 import com.qaprosoft.carina.core.foundation.utils.Configuration;
 import com.qaprosoft.carina.core.foundation.utils.R;
+import com.qaprosoft.carina.demo.gui.components.HeaderItem;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.slf4j.Logger;
@@ -29,6 +30,8 @@ import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebEleme
 import com.qaprosoft.carina.core.gui.AbstractPage;
 import com.qaprosoft.carina.demo.gui.components.FooterMenu;
 import com.qaprosoft.carina.demo.gui.components.WeValuePrivacyAd;
+
+import static ch.lambdaj.Lambda.forEach;
 
 
 public class HomePage extends AbstractPage {
@@ -43,10 +46,34 @@ public class HomePage extends AbstractPage {
     @FindBy(className = "news-column-index")
     private ExtendedWebElement newsColumn;
 
+    @FindBy(xpath = "//header[@id='header']")
+    private HeaderItem headerItem;
+
+    @FindBy(xpath = "//*[@class='tooltip'][contains(@style,'display: block')]")
+    private ExtendedWebElement loginForm;
+
+    @FindBy(xpath = "//*[@class='head-icon icon-user']")
+    private ExtendedWebElement loggedIcon;
+
+    @FindBy(xpath = "//*[@class='normal-text res-error']/p")
+    private ExtendedWebElement errorMessage;
+
     public HomePage(WebDriver driver) {
         super(driver);
         setUiLoadedMarker(newsColumn);
         setPageAbsoluteURL(R.CONFIG.get(Configuration.Parameter.URL.getKey()));
+    }
+
+    public HeaderItem getHeaderItem() {
+        return headerItem;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage.getText();
+    }
+
+    public boolean isUserLogged() {
+        return loggedIcon.isPresent();
     }
 
     public FooterMenu getFooterMenu() {
@@ -65,8 +92,8 @@ public class HomePage extends AbstractPage {
         }
         throw new RuntimeException("Unable to open brand: " + brand);
     }
-    
+
     public WeValuePrivacyAd getWeValuePrivacyAd() {
-    	return new WeValuePrivacyAd(driver);
+        return new WeValuePrivacyAd(driver);
     }
 }
