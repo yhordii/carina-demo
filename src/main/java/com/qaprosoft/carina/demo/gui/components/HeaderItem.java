@@ -46,9 +46,14 @@ public class HeaderItem extends AbstractUIObject {
     @FindBy(xpath = "//*[@class='button']")
     private ExtendedWebElement loginFormButton;
 
-    @FindBy(xpath ="//*[@class='head-icon icon-user-plus']")
+    @FindBy(xpath = "//*[@class='head-icon icon-user-plus']")
     private ExtendedWebElement signUpButton;
 
+    @FindBy(xpath = "//*[@class='head-icon icon-signout']")
+    private ExtendedWebElement logoutButton;
+
+    @FindBy(xpath = "//*[@class='head-icon icon-user']")
+    private ExtendedWebElement loggedIcon;
 
     public HeaderItem(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
@@ -94,6 +99,24 @@ public class HeaderItem extends AbstractUIObject {
         return rssIcon.isPresent();
     }
 
+    public void clickLogoutButton(){
+        logoutButton.click();
+    }
+
+    public boolean isLoginButtonPresented() {
+        return loginButton.isPresent();
+    }
+
+    public boolean isSignUpButtonPresented() {
+        return signUpButton.isPresent();
+    }
+    public boolean isUserLogged() {
+        return loggedIcon.isPresent();
+    }
+
+    public boolean isLogoutButtonPresented() {
+        return logoutButton.isPresent();
+    }
     public void login(String email, String pass) {
         loginButton.click();
         emailField.click();
@@ -102,13 +125,4 @@ public class HeaderItem extends AbstractUIObject {
         passField.type(pass);
         loginFormButton.click();
     }
-
-    public boolean isLoginButtonPresented() {
-        return loginButton.isPresent();
-    }
-
-    public boolean isSignUpButtonPresented(){
-        return signUpButton.isPresent();
-    }
-
 }

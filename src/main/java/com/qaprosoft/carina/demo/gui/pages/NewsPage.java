@@ -15,6 +15,7 @@
  */
 package com.qaprosoft.carina.demo.gui.pages;
 
+import java.lang.invoke.MethodHandles;
 import java.util.List;
 
 import org.openqa.selenium.WebDriver;
@@ -23,27 +24,52 @@ import org.openqa.selenium.support.FindBy;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractPage;
 import com.qaprosoft.carina.demo.gui.components.NewsItem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class NewsPage extends AbstractPage {
-    
-    @FindBy(className="searchFor")
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+
+    @FindBy(className = "searchFor")
     private ExtendedWebElement searchTextField;
-    
-    @FindBy(xpath="//input[@value='Search']")
+
+    @FindBy(xpath = "//input[@value='Search']")
     private ExtendedWebElement searchButton;
-    
-    @FindBy(xpath="//div[@class='news-item']")
+
+    @FindBy(xpath = "//div[@class='news-item']")
     private List<NewsItem> news;
-    
+
+    @FindBy(xpath = "//*[@class='floating-title']/div[1]/a")
+    private ExtendedWebElement firstArticle;
+
+    @FindBy(xpath = "//*[@class='article-info-name']")
+    private ExtendedWebElement resultSearchTextField;
+
     public NewsPage(WebDriver driver) {
         super(driver);
         setPageURL("/news.php3");
     }
-    
+
     public List<NewsItem> searchNews(String q) {
         searchTextField.type(q);
         searchButton.click();
         return news;
     }
-    
+    public String getFirstArticleTitle(){
+        return firstArticle.getText();
+    }
+    public ArticlePage openFirstArticle() {
+        firstArticle.click();
+        return new ArticlePage(driver);
+    }
+
+    public boolean areArticlesContain(String text) {
+        return news.stream().allMatch((a) -> a.readTitle().contains(text));
+    }
+
+    public String getResultSearchText(){
+        return resultSearchTextField.getText();
+    }
+
 }
