@@ -8,11 +8,12 @@
     <parameter name="jenkinsEnvironments" value="DEMO"/>
     <parameter name="jenkinsEmail" value="demo@qaprosoft.com"/>
 
+
     <test name="Header testing">
         <classes>
             <class name="com.qaprosoft.carina.demo.MyWebTest">
                 <methods>
-                    <include name="headerPresent"/>
+                    <include name="headerValidation"/>
                 </methods>
             </class>
         </classes>

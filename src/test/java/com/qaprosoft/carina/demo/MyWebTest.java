@@ -5,25 +5,26 @@ import com.qaprosoft.carina.core.foundation.dataprovider.annotations.CsvDataSour
 import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.carina.core.foundation.utils.ownership.MethodOwner;
 import com.qaprosoft.carina.demo.gui.components.FooterMenu;
+import com.qaprosoft.carina.demo.gui.components.GlossaryItem;
 import com.qaprosoft.carina.demo.gui.components.HeaderItem;
-import com.qaprosoft.carina.demo.gui.services.LoginService;
 import com.qaprosoft.carina.demo.gui.pages.ArticlePage;
+import com.qaprosoft.carina.demo.gui.pages.GlossaryPage;
 import com.qaprosoft.carina.demo.gui.pages.HomePage;
 import com.qaprosoft.carina.demo.gui.pages.NewsPage;
+import com.qaprosoft.carina.demo.gui.services.HamburgerService;
+import com.qaprosoft.carina.demo.gui.services.LoginService;
 import com.qaprosoft.carina.demo.gui.services.UserService;
 import com.zebrunner.agent.core.annotation.TestLabel;
-import org.junit.jupiter.params.provider.CsvFileSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-import static com.qaprosoft.carina.demo.constants.IConstant.*;
-
 import java.lang.invoke.MethodHandles;
 import java.util.HashMap;
+
+import static com.qaprosoft.carina.demo.constants.IConstant.*;
 
 public class MyWebTest implements IAbstractTest {
 
@@ -118,7 +119,7 @@ public class MyWebTest implements IAbstractTest {
     @Test(description = "Articles search check", dataProvider = "DataProvider")
     @MethodOwner(owner = "qpsdemo")
     @TestLabel(name = "article", value = "web")
-    @CsvDataSourceParameters(path="csv/phones.csv", dsUid = "ID")
+    @CsvDataSourceParameters(path = "csv/phones.csv", dsUid = "ID")
     public void articleSearching(HashMap<String, String> value) {
         String search_text = value.get("value");
         LOGGER.info(search_text);
@@ -139,6 +140,48 @@ public class MyWebTest implements IAbstractTest {
         LOGGER.info(String.format(SEARCH_RESULT, search_text));
         Assert.assertTrue(newsPage.areArticlesContain(search_text), String.format("Article aren't contain text: '%s'.", search_text));
         softAssert.assertAll();
+    }
+
+    @Test(description = "Header size and letter matching")
+    @MethodOwner(owner = "qpsdemo")
+    @TestLabel(name = "glossary", value = "web")
+    public void glossaryHeaderVerify() {
+        HomePage homePage = new HomePage(getDriver());
+        GlossaryPage glossaryPage = new GlossaryPage(getDriver());
+        GlossaryItem glossaryItem = new GlossaryItem(getDriver());
+        homePage.open();
+        Assert.assertTrue(homePage.isPageOpened(), "Home page isn't opened.");
+        homePage.getFooterMenu().openGlossaryPage();
+        Assert.assertTrue(glossaryPage.isGlossaryPagePresented(), "Glossary page isn't opened.");
+        Assert.assertTrue(glossaryItem.isHeaderEqualsListSize(), "Paragraphs and text size aren't match.");
+        Assert.assertTrue(glossaryItem.areParagraphMatchText(), "Paragraphs and text aren't match at first letter.");
+    }
+
+    @Test(description = "Paragraph's text alphabetically")
+    @MethodOwner(owner = "qpsdemo")
+    @TestLabel(name = "glossary", value = "web")
+    public void glossaryTextAlphabeticallyVerify() {
+        HomePage homePage = new HomePage(getDriver());
+        GlossaryPage glossaryPage = new GlossaryPage(getDriver());
+        GlossaryItem glossaryItem = new GlossaryItem(getDriver());
+        homePage.open();
+        Assert.assertTrue(homePage.isPageOpened(), "Home page isn't opened.");
+        homePage.getFooterMenu().openGlossaryPage();
+        Assert.assertTrue(glossaryPage.isGlossaryPagePresented(), "Glossary page isn't opened.");
+        Assert.assertTrue(glossaryItem.isTextInRightOrder(), "Text in paragraphs isn't in right order.");
+    }
+
+    @Test(description = "Hamburger menu")
+    @MethodOwner(owner = "qpsdemo")
+    @TestLabel(name = "hamburger", value = "web")
+    public void hamburgerMenuVerifying() {
+        HomePage homePage = new HomePage(getDriver());
+        HeaderItem headerItem = new HeaderItem(getDriver());
+        HamburgerService hamburgerService = new HamburgerService();
+        homePage.open();
+        Assert.assertTrue(homePage.isPageOpened(), "Home page isn't opened.");
+        headerItem.clickHamburgerMenu();
+        hamburgerService.areLinksWorks();
     }
 
 }
