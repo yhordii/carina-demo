@@ -36,7 +36,7 @@ public class FooterMenu extends AbstractUIObject {
     @FindBy(linkText = "News")
     private ExtendedWebElement newsLink;
 
-    @FindBy(xpath = "//*[@id=\"footmenu\"]/p/a[8]")
+    @FindBy(xpath = "//div[@id='footer']//div[@id='footmenu']//a[contains(text(), 'Glossary')]")
     private ExtendedWebElement glossaryLink;
 
     public FooterMenu(WebDriver driver, SearchContext searchContext) {

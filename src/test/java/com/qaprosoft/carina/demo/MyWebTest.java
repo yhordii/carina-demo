@@ -6,12 +6,9 @@ import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.carina.core.foundation.utils.ownership.MethodOwner;
 import com.qaprosoft.carina.demo.gui.components.FooterMenu;
 import com.qaprosoft.carina.demo.gui.components.GlossaryItem;
+import com.qaprosoft.carina.demo.gui.components.HamburgerItem;
 import com.qaprosoft.carina.demo.gui.components.HeaderItem;
-import com.qaprosoft.carina.demo.gui.pages.ArticlePage;
-import com.qaprosoft.carina.demo.gui.pages.GlossaryPage;
-import com.qaprosoft.carina.demo.gui.pages.HomePage;
-import com.qaprosoft.carina.demo.gui.pages.NewsPage;
-import com.qaprosoft.carina.demo.gui.services.HamburgerService;
+import com.qaprosoft.carina.demo.gui.pages.*;
 import com.qaprosoft.carina.demo.gui.services.LoginService;
 import com.qaprosoft.carina.demo.gui.services.UserService;
 import com.zebrunner.agent.core.annotation.TestLabel;
@@ -147,11 +144,10 @@ public class MyWebTest implements IAbstractTest {
     @TestLabel(name = "glossary", value = "web")
     public void glossaryHeaderVerify() {
         HomePage homePage = new HomePage(getDriver());
-        GlossaryPage glossaryPage = new GlossaryPage(getDriver());
         GlossaryItem glossaryItem = new GlossaryItem(getDriver());
         homePage.open();
         Assert.assertTrue(homePage.isPageOpened(), "Home page isn't opened.");
-        homePage.getFooterMenu().openGlossaryPage();
+        GlossaryPage glossaryPage = homePage.getFooterMenu().openGlossaryPage();
         Assert.assertTrue(glossaryPage.isGlossaryPagePresented(), "Glossary page isn't opened.");
         Assert.assertTrue(glossaryItem.isHeaderEqualsListSize(), "Paragraphs and text size aren't match.");
         Assert.assertTrue(glossaryItem.areParagraphMatchText(), "Paragraphs and text aren't match at first letter.");
@@ -162,11 +158,10 @@ public class MyWebTest implements IAbstractTest {
     @TestLabel(name = "glossary", value = "web")
     public void glossaryTextAlphabeticallyVerify() {
         HomePage homePage = new HomePage(getDriver());
-        GlossaryPage glossaryPage = new GlossaryPage(getDriver());
         GlossaryItem glossaryItem = new GlossaryItem(getDriver());
         homePage.open();
         Assert.assertTrue(homePage.isPageOpened(), "Home page isn't opened.");
-        homePage.getFooterMenu().openGlossaryPage();
+        GlossaryPage glossaryPage = homePage.getFooterMenu().openGlossaryPage();
         Assert.assertTrue(glossaryPage.isGlossaryPagePresented(), "Glossary page isn't opened.");
         Assert.assertTrue(glossaryItem.isTextInRightOrder(), "Text in paragraphs isn't in right order.");
     }
@@ -177,11 +172,31 @@ public class MyWebTest implements IAbstractTest {
     public void hamburgerMenuVerifying() {
         HomePage homePage = new HomePage(getDriver());
         HeaderItem headerItem = new HeaderItem(getDriver());
-        HamburgerService hamburgerService = new HamburgerService();
+        SoftAssert softAssert = new SoftAssert();
         homePage.open();
         Assert.assertTrue(homePage.isPageOpened(), "Home page isn't opened.");
-        headerItem.clickHamburgerMenu();
-        hamburgerService.areLinksWorks();
+        HamburgerItem hamburgerItem = headerItem.clickHamburgerMenu();
+        NewsPage newsPage = hamburgerItem.clickNewsLink();
+        softAssert.assertTrue(newsPage.isNewsPagePresented(), "News page isn't opened.");
+        ReviewPage reviewPage = hamburgerItem.clickReviewsLink();
+        softAssert.assertTrue(reviewPage.isReviewsPagePresented(), "Reviews page isn't opened.");
+        VideosPage videosPage = hamburgerItem.clickVideosLink();
+        softAssert.assertTrue(videosPage.isVideosPagePresented(), "Videos page isn't opened.");
+        NewsPage newsPageFeatured = hamburgerItem.clickFeaturedLink();
+        softAssert.assertTrue(newsPageFeatured.isFeaturedPagePresented(), "Featured page isn't opened.");
+        PhoneFinderPage phoneFinderPage = hamburgerItem.clickPhoneFinderLink();
+        softAssert.assertTrue(phoneFinderPage.isPhoneFinderPagePresented(), "Phone finder page isn't opened.");
+        DealsPage dealsPage = hamburgerItem.clickDealsLink();
+        softAssert.assertTrue(dealsPage.isDealsPagePresented(), "Deals page isn't opened.");
+        ToolsPage toolsPage = hamburgerItem.clickToolsLink();
+        softAssert.assertTrue(toolsPage.isToolsPagePresented(), "Tools page isn't opened.");
+        CoveragePage coveragePage = hamburgerItem.clickCoverageLink();
+        softAssert.assertTrue(coveragePage.isCoveragePageOpened(), "Network coverage page isn't opened.");
+        ContactPage contactPage = hamburgerItem.clickContactsLink();
+        softAssert.assertTrue(contactPage.isContactPagePresented(), "Contact page isn't opened.");
+        hamburgerItem.clickHomeLink();
+        softAssert.assertTrue(homePage.isHomePagePresented());
+        softAssert.assertAll();
     }
 
 }
