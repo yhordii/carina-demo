@@ -42,7 +42,7 @@ public class GlossaryItem extends AbstractUIObject {
             if (!Character.isDigit(nameParagraphs.get(i).getText().charAt(0))) {
                 ExtendedWebElement tempParagraph = nameParagraphs.get(i);
                 List<String> tempText = contentParagraphs.get(i).listOfContent();
-                result = tempText.stream().allMatch(t -> t.startsWith(String.valueOf(tempParagraph.getText().charAt(0))));
+                result = tempText.stream().allMatch(t -> t.startsWith(tempParagraph.getText()));
             } else {
                 List<String> tempText = contentParagraphs.get(i).listOfContent();
                 result = tempText.stream().allMatch(t -> Character.isDigit(t.charAt(0)));
