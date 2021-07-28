@@ -46,6 +46,12 @@ public class NewsPage extends AbstractPage {
     @FindBy(xpath = "//*[@class='article-info-name']")
     private ExtendedWebElement resultSearchTextField;
 
+    @FindBy(xpath = "//h1[contains (text(), 'Articles tagged \"Featured\"')]")
+    private ExtendedWebElement featuredArticle;
+
+    @FindBy(xpath = "//h1[contains (text(), 'News')]")
+    private ExtendedWebElement newsTitle;
+
     public NewsPage(WebDriver driver) {
         super(driver);
         setPageURL("/news.php3");
@@ -70,6 +76,14 @@ public class NewsPage extends AbstractPage {
 
     public String getResultSearchText(){
         return resultSearchTextField.getText();
+    }
+
+    public boolean isNewsPagePresented(){
+        return newsTitle.isPresent();
+    }
+
+    public boolean isFeaturedPagePresented(){
+        return featuredArticle.isPresent();
     }
 
 }

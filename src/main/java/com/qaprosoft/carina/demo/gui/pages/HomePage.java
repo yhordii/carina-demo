@@ -55,6 +55,7 @@ public class HomePage extends AbstractPage {
     @FindBy(xpath = "//*[@class='normal-text res-error']/p")
     private ExtendedWebElement errorMessage;
 
+
     public HomePage(WebDriver driver) {
         super(driver);
         setUiLoadedMarker(newsColumn);
@@ -89,4 +90,10 @@ public class HomePage extends AbstractPage {
     public WeValuePrivacyAd getWeValuePrivacyAd() {
         return new WeValuePrivacyAd(driver);
     }
+
+    public boolean isHomePagePresented() {
+        LOGGER.info(R.CONFIG.get(Configuration.Parameter.URL.getKey()));
+        return getPageURL().equals(R.CONFIG.get(Configuration.Parameter.URL.getKey()));
+    }
+
 }

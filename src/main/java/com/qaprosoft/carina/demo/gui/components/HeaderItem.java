@@ -6,6 +6,7 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
+
 public class HeaderItem extends AbstractUIObject {
     @FindBy(xpath = "//*[@class='lines-button minus focused']")
     private ExtendedWebElement menu;
@@ -55,6 +56,12 @@ public class HeaderItem extends AbstractUIObject {
     @FindBy(xpath = "//*[@class='head-icon icon-user']")
     private ExtendedWebElement loggedIcon;
 
+    @FindBy(xpath = "//*[@id=\"header\"]/div/div/button[@class='lines-button minus']")
+    private ExtendedWebElement hamburgerMenu;
+
+    @FindBy(xpath = "//button[@class='lines-button minus open']")
+    private ExtendedWebElement openedHamburgerMenu;
+
     public HeaderItem(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
     }
@@ -99,7 +106,7 @@ public class HeaderItem extends AbstractUIObject {
         return rssIcon.isPresent();
     }
 
-    public void clickLogoutButton(){
+    public void clickLogoutButton() {
         logoutButton.click();
     }
 
@@ -110,6 +117,7 @@ public class HeaderItem extends AbstractUIObject {
     public boolean isSignUpButtonPresented() {
         return signUpButton.isPresent();
     }
+
     public boolean isUserLogged() {
         return loggedIcon.isPresent();
     }
@@ -117,6 +125,7 @@ public class HeaderItem extends AbstractUIObject {
     public boolean isLogoutButtonPresented() {
         return logoutButton.isPresent();
     }
+
     public void login(String email, String pass) {
         loginButton.click();
         emailField.click();
@@ -124,5 +133,14 @@ public class HeaderItem extends AbstractUIObject {
         passField.click();
         passField.type(pass);
         loginFormButton.click();
+    }
+
+    public HamburgerItem clickHamburgerMenu() {
+        hamburgerMenu.click();
+        return new HamburgerItem(driver);
+    }
+
+    public boolean isHamburgerMenuOpened() {
+        return openedHamburgerMenu.isPresent();
     }
 }
