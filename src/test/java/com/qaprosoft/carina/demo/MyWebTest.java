@@ -199,4 +199,24 @@ public class MyWebTest implements IAbstractTest {
         softAssert.assertAll();
     }
 
+    @Test(description = "Verify Phone finder")
+    @MethodOwner(owner = "qpsdemo")
+    @TestLabel(name = "phone finder", value = "web")
+    public void phoneFinderVerifying() {
+        HomePage homePage = new HomePage(getDriver());
+        homePage.open();
+        Assert.assertTrue(homePage.isPageOpened(), "Home page isn't opened.");
+        PhoneFinderPage phoneFinderPage = homePage.getPhoneFinderMenu().openPhoneFinderPage();
+        Assert.assertTrue(phoneFinderPage.isPhoneFinderPagePresented(), "Phone finder page isn't presented.");
+        phoneFinderPage.clickPhoneBrand(R.TESTDATA.get("finder_phone_brand"));
+        Assert.assertTrue(phoneFinderPage.isBottomShowButtonPresented(), "Bottom 'Show' button isn't presented.");
+        Assert.assertTrue(phoneFinderPage.isBottomShowButtonContainsText(), "Bottom 'Show' button hasn't text.");
+        phoneFinderPage.clickShowButton();
+        Assert.assertTrue(phoneFinderPage.isPhoneFinderResultPresented(), "Phone finder result page isn't presented.");
+        Assert.assertTrue(phoneFinderPage.isPhoneFinderResultTextPresented(), "Text on result page isn't presented.");
+        Assert.assertTrue(phoneFinderPage.isCurrectBrandPresented(R.TESTDATA.get("finder_phone_brand")), "Searched brand isn't presented.");
+        Assert.assertTrue(phoneFinderPage.isNoteOnResultPagePresented(), "Note text isn't presented on the result page.");
+        Assert.assertTrue(phoneFinderPage.returnToPhoneFinder(), "Can't return to previous menu.");
+    }
+
 }

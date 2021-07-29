@@ -21,6 +21,7 @@ import java.util.List;
 import com.qaprosoft.carina.core.foundation.utils.Configuration;
 import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.carina.demo.gui.components.HeaderItem;
+import com.qaprosoft.carina.demo.gui.components.PhoneFinderMenu;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.slf4j.Logger;
@@ -55,6 +56,8 @@ public class HomePage extends AbstractPage {
     @FindBy(xpath = "//*[@class='normal-text res-error']/p")
     private ExtendedWebElement errorMessage;
 
+    @FindBy(xpath = "//*[@class=\"brandmenu-v2 light l-box clearfix\"]")
+    private PhoneFinderMenu phoneFinderMenu;
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -72,6 +75,9 @@ public class HomePage extends AbstractPage {
 
     public FooterMenu getFooterMenu() {
         return footerMenu;
+    }
+    public PhoneFinderMenu getPhoneFinderMenu(){
+        return phoneFinderMenu;
     }
 
     public BrandModelsPage selectBrand(String brand) {
