@@ -219,4 +219,29 @@ public class MyWebTest implements IAbstractTest {
         Assert.assertTrue(phoneFinderPage.returnToPhoneFinder(), "Can't return to previous menu.");
     }
 
+    @Test(description = "Verify opinions on phone finder page")
+    @MethodOwner(owner = "qpsdemo")
+    @TestLabel(name = "opinions", value = "web")
+    public void phonePageOpinions() {
+        LoginService loginService = new LoginService();
+        HomePage homePage = new HomePage(getDriver());
+        HeaderItem headerItem = new HeaderItem(getDriver());
+        homePage.open();
+        Assert.assertTrue(homePage.isPageOpened(), "Home page isn't opened.");
+        loginService.login(UserService.getRealUser());
+        Assert.assertTrue(headerItem.isUserLogged(), "User isn't logged in.");
+        PhoneFinderPage phoneFinderPage = homePage.getPhoneFinderMenu().openPhoneBrand(R.TESTDATA.get("finder_phone_brand"));
+        Assert.assertTrue(phoneFinderPage.getTitle().contains(R.TESTDATA.get("finder_phone_brand")), "Page with selected brand isn't opened.");
+        PhoneModelPage phoneModelPage = phoneFinderPage.openMostPopularPhoneModel();
+        Assert.assertTrue(phoneModelPage.isPhoneModelPagePresented(), "Phone's model page isn't opened.");
+        phoneModelPage.clickOpinions();
+        phoneModelPage.sortByBestRating();
+        Assert.assertTrue(phoneModelPage.areCommentsSortedByRating(), "Comments aren't sorted.");
+        Assert.assertTrue(phoneModelPage.isLikeFirstComment(), "Can't like comment.");
+        Assert.assertTrue(phoneModelPage.isUnratedFirstComment(), "Can't unlike comment.");
+        phoneModelPage.sortByNewFirst();
+        Assert.assertTrue(phoneModelPage.areCommentsSortedByDate(), "Comment aren't sort by date.");
+    }
+
+
 }
