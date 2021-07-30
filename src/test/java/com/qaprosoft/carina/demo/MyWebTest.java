@@ -217,7 +217,6 @@ public class MyWebTest implements IAbstractTest {
         Assert.assertTrue(phoneFinderPage.isCurrectBrandPresented(R.TESTDATA.get("finder_phone_brand")), "Searched brand isn't presented.");
         Assert.assertTrue(phoneFinderPage.isNoteOnResultPagePresented(), "Note text isn't presented on the result page.");
         Assert.assertTrue(phoneFinderPage.returnToPhoneFinder(), "Can't return to previous menu.");
-        getDriver().close();
     }
 
     @Test(description = "Verify opinions on phone finder page")

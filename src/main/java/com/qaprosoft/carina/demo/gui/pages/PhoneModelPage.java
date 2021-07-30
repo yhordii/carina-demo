@@ -2,6 +2,7 @@ package com.qaprosoft.carina.demo.gui.pages;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractUIObject;
+import io.cucumber.java.sl.In;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -49,7 +50,7 @@ public class PhoneModelPage extends AbstractUIObject {
         super(driver, searchContext);
     }
 
-    public boolean isPhoneModelPagePresented(){
+    public boolean isPhoneModelPagePresented() {
         return phoneModelBody.isPresent();
     }
 
@@ -90,8 +91,14 @@ public class PhoneModelPage extends AbstractUIObject {
     public boolean areCommentsSortedByDate() {
         List<Date> dates = new ArrayList<>();
         List<Integer> hours = new ArrayList<>();
+        List<Integer> minutes = new ArrayList<>();
+        List<Integer> seconds = new ArrayList<>();
         dateComments.stream().forEach(t -> {
-            if (t.getText().contains("ago")) {
+            if (t.getText().contains("seconds ago") || t.getText().contains("second ago")) {
+                seconds.add(Integer.parseInt(t.getText().replaceAll("\\D+", "")));
+            } else if (t.getText().contains("minutes ago") || t.getText().contains("minute ago")) {
+                minutes.add(Integer.parseInt(t.getText().replaceAll("\\D+", "")));
+            } else if (t.getText().contains("hours ago") || t.getText().contains("hour ago")) {
                 hours.add(Integer.parseInt(t.getText().replaceAll("\\D+", "")));
             } else {
                 try {
@@ -101,11 +108,16 @@ public class PhoneModelPage extends AbstractUIObject {
                 }
             }
         });
+        List<Integer> secondsBefore = seconds;
+        seconds.stream().sorted(Comparator.reverseOrder());
+        List<Integer> minutesBefore = minutes;
+        minutes.stream().sorted(Comparator.reverseOrder());
         List<Integer> hoursBefore = hours;
         hours.stream().sorted(Comparator.reverseOrder());
         List<Date> datesBefore = dates;
         dates.stream().sorted(Comparator.reverseOrder());
-        return ((datesBefore == dates) && (hoursBefore == hours));
+        return ((datesBefore == dates) && (hoursBefore == hours)
+                && (minutesBefore == minutes) && (secondsBefore == seconds));
     }
 
 }
