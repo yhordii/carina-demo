@@ -9,12 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.invoke.MethodHandles;
+import java.util.Comparator;
 import java.util.List;
 
 public class PhoneFinderPage extends AbstractPage {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-
 
     @FindBy(xpath = "//h1[contains (text(), 'Phone finder')]")
     private ExtendedWebElement phoneFinderTitle;
@@ -36,11 +36,17 @@ public class PhoneFinderPage extends AbstractPage {
     @FindBy(xpath = "//div[@class='st-text']/p[contains(text(),'Your search returned ')]/a[contains(text(),'click here')]")
     private ExtendedWebElement textOnResultPage;
 
-    @FindBy(xpath ="//*[@id=\"review-body\"]/div/ul/li")
+    @FindBy(xpath = "//*[@id=\"review-body\"]/div/ul/li")
     private List<ExtendedWebElement> phoneModels;
 
     @FindBy(xpath = "//*[@class='note'][contains(text(),'Note: Please report wrong Phone Finder results ')]/a[contains(text(), 'here')]")
     private ExtendedWebElement noteTextOnResultPage;
+
+    @FindBy(xpath = "//li[@class='article-info-meta-link help help-sort-popularity']/a")
+    private ExtendedWebElement popularityButton;
+
+    @FindBy(xpath = "//div[@class='makers']/ul/li[1]")
+    private ExtendedWebElement mostPopularModel;
 
     public PhoneFinderPage(WebDriver driver) {
         super(driver);
@@ -64,7 +70,7 @@ public class PhoneFinderPage extends AbstractPage {
         return showButtonText.isPresent();
     }
 
-    public void clickShowButton(){
+    public void clickShowButton() {
         showButton.click();
     }
 
@@ -76,17 +82,24 @@ public class PhoneFinderPage extends AbstractPage {
         return textOnResultPage.isPresent();
     }
 
-    public boolean isCurrectBrandPresented(String brand){
-        return phoneModels.stream().allMatch(t->t.getText().contains(brand));
+    public boolean isCurrectBrandPresented(String brand) {
+        return phoneModels.stream().allMatch(t -> t.getText().contains(brand));
     }
 
-    public boolean isNoteOnResultPagePresented(){
+    public boolean isNoteOnResultPagePresented() {
         return noteTextOnResultPage.isPresent();
     }
 
-    public boolean returnToPhoneFinder(){
+    public boolean returnToPhoneFinder() {
         textOnResultPage.click();
         return phoneFinderTitle.isPresent();
     }
+
+    public PhoneModelPage openMostPopularPhoneModel() {
+        popularityButton.click();
+        mostPopularModel.click();
+        return new PhoneModelPage(driver);
+    }
+
 
 }
