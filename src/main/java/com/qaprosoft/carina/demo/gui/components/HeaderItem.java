@@ -2,6 +2,7 @@ package com.qaprosoft.carina.demo.gui.components;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractUIObject;
+
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -56,7 +57,7 @@ public class HeaderItem extends AbstractUIObject {
     @FindBy(xpath = "//*[@class='head-icon icon-user']")
     private ExtendedWebElement loggedIcon;
 
-    @FindBy(xpath = "//*[@id=\"header\"]/div/div/button[@class='lines-button minus']")
+    @FindBy(xpath = "//*[@id='header']/div/div/button[@class='lines-button minus']")
     private ExtendedWebElement hamburgerMenu;
 
     @FindBy(xpath = "//button[@class='lines-button minus open']")

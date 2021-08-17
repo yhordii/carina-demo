@@ -23,19 +23,19 @@ import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebEleme
 import com.qaprosoft.carina.core.gui.AbstractUIObject;
 
 public class WeValuePrivacyAd extends AbstractUIObject {
-	@FindBy(xpath = "//button[contains(@onclick, 'setAndSaveAllConsent')]")
-	private ExtendedWebElement okBtn;
+    @FindBy(xpath = "//button[contains(@onclick, 'setAndSaveAllConsent')]")
+    private ExtendedWebElement okBtn;
 
-	public WeValuePrivacyAd(WebDriver driver, SearchContext searchContext) {
-		super(driver, searchContext);
-	}
+    public WeValuePrivacyAd(WebDriver driver, SearchContext searchContext) {
+        super(driver, searchContext);
+    }
 
-	public WeValuePrivacyAd(WebDriver driver) {
-		super(driver);
-	}
+    public WeValuePrivacyAd(WebDriver driver) {
+        super(driver);
+    }
 
-	public void closeAdIfPresent() {
-		okBtn.clickIfPresent();
-	}
+    public void closeAdIfPresent() {
+        okBtn.clickIfPresent();
+    }
 
 }
