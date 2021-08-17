@@ -5,7 +5,6 @@ import com.qaprosoft.carina.demo.gui.components.HeaderItem;
 import com.qaprosoft.carina.demo.gui.components.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.Assert;
 
 import java.lang.invoke.MethodHandles;
 
@@ -35,7 +34,6 @@ public class LoginService implements IDriverPool {
         HeaderItem headerItem = new HeaderItem(getDriver());
         if (headerItem.isLogoutButtonPresented()) {
             headerItem.clickLogoutButton();
-
         } else {
             LOGGER.info("User isn't logged in, can't logout.");
         }

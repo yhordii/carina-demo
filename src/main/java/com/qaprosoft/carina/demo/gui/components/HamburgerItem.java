@@ -3,40 +3,41 @@ package com.qaprosoft.carina.demo.gui.components;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractUIObject;
 import com.qaprosoft.carina.demo.gui.pages.*;
+
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
 public class HamburgerItem extends AbstractUIObject {
 
-    @FindBy(xpath = "//*[@id=\"menu\"]/li/a[text()='Home']")
+    @FindBy(xpath = "//*[@id='menu']/li/a[text()='Home']")
     private ExtendedWebElement homeLink;
 
-    @FindBy(xpath = "//*[@id=\"menu\"]/li/a[text()='News']")
+    @FindBy(xpath = "//*[@id='menu']/li/a[text()='News']")
     private ExtendedWebElement newsLink;
 
-    @FindBy(xpath = "//*[@id=\"menu\"]/li/a[text()='Reviews']")
+    @FindBy(xpath = "//*[@id='menu']/li/a[text()='Reviews']")
     private ExtendedWebElement reviewsLink;
 
-    @FindBy(xpath = "//*[@id=\"menu\"]/li/a[text()='Videos']")
+    @FindBy(xpath = "//*[@id='menu']/li/a[text()='Videos']")
     private ExtendedWebElement videosLink;
 
-    @FindBy(xpath = "//*[@id=\"menu\"]/li/a[text()='Featured']")
+    @FindBy(xpath = "//*[@id='menu']/li/a[text()='Featured']")
     private ExtendedWebElement featuredLink;
 
-    @FindBy(xpath = "//*[@id=\"menu\"]/li/a[text()='Phone Finder']")
+    @FindBy(xpath = "//*[@id='menu']/li/a[text()='Phone Finder']")
     private ExtendedWebElement phoneFindersLink;
 
-    @FindBy(xpath = "//*[@id=\"menu\"]/li/a[text()='Deals']")
+    @FindBy(xpath = "//*[@id='menu']/li/a[text()='Deals']")
     private ExtendedWebElement dealsLink;
 
-    @FindBy(xpath = "//*[@id=\"menu\"]/li/a[text()='Tools']")
+    @FindBy(xpath = "//*[@id='menu']/li/a[text()='Tools']")
     private ExtendedWebElement toolsLink;
 
-    @FindBy(xpath = "//*[@id=\"menu\"]/li/a[text()='Coverage']")
+    @FindBy(xpath = "//*[@id='menu']/li/a[text()='Coverage']")
     private ExtendedWebElement coverageLink;
 
-    @FindBy(xpath = "//*[@id=\"menu\"]/li/a[text()='Contact']")
+    @FindBy(xpath = "//*[@id='menu']/li/a[text()='Contact']")
     private ExtendedWebElement contactsLink;
 
     public HamburgerItem(WebDriver driver) {

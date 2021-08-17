@@ -24,6 +24,7 @@ import org.openqa.selenium.support.FindBy;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractPage;
 import com.qaprosoft.carina.demo.gui.components.NewsItem;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,7 +47,7 @@ public class NewsPage extends AbstractPage {
     @FindBy(xpath = "//*[@class='article-info-name']")
     private ExtendedWebElement resultSearchTextField;
 
-    @FindBy(xpath = "//h1[contains (text(), 'Articles tagged \"Featured\"')]")
+    @FindBy(xpath = "//h1[contains (text(), 'Articles tagged 'Featured'')]")
     private ExtendedWebElement featuredArticle;
 
     @FindBy(xpath = "//h1[contains (text(), 'News')]")
@@ -62,9 +63,11 @@ public class NewsPage extends AbstractPage {
         searchButton.click();
         return news;
     }
-    public String getFirstArticleTitle(){
+
+    public String getFirstArticleTitle() {
         return firstArticle.getText();
     }
+
     public ArticlePage openFirstArticle() {
         firstArticle.click();
         return new ArticlePage(driver);
@@ -74,15 +77,15 @@ public class NewsPage extends AbstractPage {
         return news.stream().allMatch((a) -> a.readTitle().contains(text));
     }
 
-    public String getResultSearchText(){
+    public String getResultSearchText() {
         return resultSearchTextField.getText();
     }
 
-    public boolean isNewsPagePresented(){
+    public boolean isNewsPagePresented() {
         return newsTitle.isPresent();
     }
 
-    public boolean isFeaturedPagePresented(){
+    public boolean isFeaturedPagePresented() {
         return featuredArticle.isPresent();
     }
 

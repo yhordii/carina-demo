@@ -2,24 +2,31 @@ package com.qaprosoft.carina.demo;
 
 import com.qaprosoft.carina.core.foundation.IAbstractTest;
 import com.qaprosoft.carina.core.foundation.dataprovider.annotations.CsvDataSourceParameters;
+import com.qaprosoft.carina.core.foundation.dataprovider.annotations.XlsDataSourceParameters;
 import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.carina.core.foundation.utils.ownership.MethodOwner;
+import com.qaprosoft.carina.demo.enums.PhoneBrands;
 import com.qaprosoft.carina.demo.gui.components.FooterMenu;
 import com.qaprosoft.carina.demo.gui.components.GlossaryItem;
 import com.qaprosoft.carina.demo.gui.components.HamburgerItem;
 import com.qaprosoft.carina.demo.gui.components.HeaderItem;
+import com.qaprosoft.carina.demo.gui.components.compare.ModelSpecs;
 import com.qaprosoft.carina.demo.gui.pages.*;
 import com.qaprosoft.carina.demo.gui.services.LoginService;
+import com.qaprosoft.carina.demo.gui.services.PhoneComparator;
 import com.qaprosoft.carina.demo.gui.services.UserService;
 import com.zebrunner.agent.core.annotation.TestLabel;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import java.lang.invoke.MethodHandles;
 import java.util.HashMap;
+import java.util.List;
 
 import static com.qaprosoft.carina.demo.constants.IConstant.*;
 
@@ -208,15 +215,16 @@ public class MyWebTest implements IAbstractTest {
         Assert.assertTrue(homePage.isPageOpened(), "Home page isn't opened.");
         PhoneFinderPage phoneFinderPage = homePage.getPhoneFinderMenu().openPhoneFinderPage();
         Assert.assertTrue(phoneFinderPage.isPhoneFinderPagePresented(), "Phone finder page isn't presented.");
-        phoneFinderPage.clickPhoneBrand(R.TESTDATA.get("finder_phone_brand"));
+        phoneFinderPage.clickPhoneBrand(PhoneBrands.SAMSUNG);
         Assert.assertTrue(phoneFinderPage.isBottomShowButtonPresented(), "Bottom 'Show' button isn't presented.");
         Assert.assertTrue(phoneFinderPage.isBottomShowButtonContainsText(), "Bottom 'Show' button hasn't text.");
-        phoneFinderPage.clickShowButton();
-        Assert.assertTrue(phoneFinderPage.isPhoneFinderResultPresented(), "Phone finder result page isn't presented.");
-        Assert.assertTrue(phoneFinderPage.isPhoneFinderResultTextPresented(), "Text on result page isn't presented.");
-        Assert.assertTrue(phoneFinderPage.isCurrectBrandPresented(R.TESTDATA.get("finder_phone_brand")), "Searched brand isn't presented.");
-        Assert.assertTrue(phoneFinderPage.isNoteOnResultPagePresented(), "Note text isn't presented on the result page.");
-        Assert.assertTrue(phoneFinderPage.returnToPhoneFinder(), "Can't return to previous menu.");
+        PhoneFinderSearchResultPage phoneFinderSearchResultPage = phoneFinderPage.clickShowButton();
+        Assert.assertTrue(phoneFinderSearchResultPage.isPhoneFinderResultPresented(), "Phone finder result page isn't presented.");
+        Assert.assertTrue(phoneFinderSearchResultPage.isPhoneFinderResultTextPresented(), "Text on result page isn't presented.");
+        Assert.assertTrue(phoneFinderSearchResultPage.isCorrectBrandPresented(PhoneBrands.SAMSUNG), "Searched brand isn't presented.");
+        Assert.assertTrue(phoneFinderSearchResultPage.isNoteOnResultPagePresented(), "Note text isn't presented on the result page.");
+        phoneFinderSearchResultPage.returnToPhoneFinder();
+        Assert.assertTrue(phoneFinderPage.isTitlePhoneFinderPresented(), "Can't return to previous menu.");
     }
 
     @Test(description = "Verify opinions on phone finder page")
@@ -230,18 +238,48 @@ public class MyWebTest implements IAbstractTest {
         Assert.assertTrue(homePage.isPageOpened(), "Home page isn't opened.");
         loginService.login(UserService.getRealUser());
         Assert.assertTrue(headerItem.isUserLogged(), "User isn't logged in.");
-        PhoneFinderPage phoneFinderPage = homePage.getPhoneFinderMenu().openPhoneBrand(R.TESTDATA.get("finder_phone_brand"));
-        Assert.assertTrue(phoneFinderPage.getTitle().contains(R.TESTDATA.get("finder_phone_brand")), "Page with selected brand isn't opened.");
+        PhoneFinderPage phoneFinderPage = homePage.getPhoneFinderMenu().openPhoneBrand(PhoneBrands.SAMSUNG);
+        Assert.assertTrue(phoneFinderPage.getTitle().contains(PhoneBrands.SAMSUNG.getValue()), "Page with selected brand isn't opened.");
         PhoneModelPage phoneModelPage = phoneFinderPage.openMostPopularPhoneModel();
         Assert.assertTrue(phoneModelPage.isPhoneModelPagePresented(), "Phone's model page isn't opened.");
-        phoneModelPage.clickOpinions();
-        phoneModelPage.sortByBestRating();
-        Assert.assertTrue(phoneModelPage.areCommentsSortedByRating(), "Comments aren't sorted.");
-        Assert.assertTrue(phoneModelPage.isLikeFirstComment(), "Can't like comment.");
-        Assert.assertTrue(phoneModelPage.isUnratedFirstComment(), "Can't unlike comment.");
-        phoneModelPage.sortByNewFirst();
-        Assert.assertTrue(phoneModelPage.areCommentsSortedByDate(), "Comment aren't sort by date.");
+        PhoneModelOpinions phoneModelOpinions = phoneModelPage.clickOpinions();
+        Assert.assertTrue(phoneModelOpinions.areCommentsSortedByRating(), "Comments aren't sorted.");
+        Assert.assertTrue(phoneModelOpinions.isLikeFirstComment(), "Can't like comment.");
+        Assert.assertTrue(phoneModelOpinions.isUnratedFirstComment(), "Can't unlike comment.");
+        Assert.assertTrue(phoneModelOpinions.areCommentsSortedByDate(), "Comment aren't sort by date.");
     }
 
+    @Test(description = "DataProvider for phone compare", dataProvider = "DP1")
+    @MethodOwner(owner = "qpsdemo")
+    @TestLabel(name = "opinions", value = "web")
+    public void phoneCompareJava(String model1, String model2, String model3) {
+        HomePage homePage = new HomePage(getDriver());
+        homePage.open();
+        CompareModelsPage compareModelsPage = homePage.getFooterMenu().openComparePage();
+        List<ModelSpecs> specs = compareModelsPage.compareModels(model1, model2, model3);
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertEquals(specs.get(0).readSpec(ModelSpecs.SpecType.TECHNOLOGY), "GSM / CDMA / HSPA / LTE");
+        softAssert.assertEquals(specs.get(1).readSpec(ModelSpecs.SpecType.TECHNOLOGY), "GSM / HSPA / LTE");
+        softAssert.assertEquals(specs.get(2).readSpec(ModelSpecs.SpecType.TECHNOLOGY), "GSM / CDMA / HSPA / EVDO / LTE");
+        softAssert.assertAll();
+    }
 
+    @DataProvider(parallel = false, name = "DP1")
+    public static Object[][] dataprovider() {
+        return new Object[][]{
+                {"LG Nexus 5", "Samsung Galaxy S7", "iPhone XR"},
+                {"Pixel 3A", "Samsung Galaxy S20", "iPhone 11"}
+        };
+    }
+
+    @Test(description = "Phones' technology comparator", dataProvider = "DataProvider")
+    @MethodOwner(owner = "qpsdemo")
+    @TestLabel(name = "compare", value = "web")
+    @XlsDataSourceParameters(path = "xls/models.xlsx", sheet = "Sheet1", dsUid = "ID", dsArgs = "model1, model2, model3")
+    public void phoneCompareWithService(String model1, String model2, String model3) {
+        HomePage homePage = new HomePage(getDriver());
+        homePage.open();
+        PhoneComparator phoneComparator = new PhoneComparator();
+        phoneComparator.compareThreeModels(ModelSpecs.SpecType.TECHNOLOGY, "GSM / CDMA", model1, model2, model3);
+    }
 }
