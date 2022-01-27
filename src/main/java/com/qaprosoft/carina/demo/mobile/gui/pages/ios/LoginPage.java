@@ -1,5 +1,6 @@
 package com.qaprosoft.carina.demo.mobile.gui.pages.ios;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -14,6 +15,7 @@ import com.qaprosoft.carina.demo.mobile.gui.pages.common.LoginPageBase;
 
 @DeviceType(pageType = Type.IOS_PHONE, parentClass = LoginPageBase.class)
 public class LoginPage extends LoginPageBase {
+	private static String UNSUPPORTED_METHOD = "This method isn't implemented yet";
 
 	@FindBy(xpath = "type = 'XCUIElementTypeTextField'")
 	@Predicate
@@ -38,6 +40,9 @@ public class LoginPage extends LoginPageBase {
 	@FindBy(xpath = "name = 'LOGIN'")
 	@Predicate
 	private ExtendedWebElement loginBtn;
+
+	@FindBy(id = "loginForm")
+	private ExtendedWebElement loginForm;
 
 	public LoginPage(WebDriver driver) {
 		super(driver);
@@ -83,6 +88,47 @@ public class LoginPage extends LoginPageBase {
 		selectMaleSex();
 		checkPrivacyPolicyCheckbox();
 		return clickLoginBtn();
+	}
+
+
+	@Override
+	public boolean isNamePresented()  {
+	throw new NotImplementedException(UNSUPPORTED_METHOD);
+	}
+
+	@Override
+	public boolean isPassPresented() {
+		throw new NotImplementedException(UNSUPPORTED_METHOD);
+	}
+
+	@Override
+	public boolean isNameEntered(String name) {
+		throw new NotImplementedException(UNSUPPORTED_METHOD);
+	}
+
+	@Override
+	public boolean isPassEntered(String pass) {
+		throw new NotImplementedException(UNSUPPORTED_METHOD);
+	}
+
+	@Override
+	public boolean isGenderPresented() {
+		throw new NotImplementedException(UNSUPPORTED_METHOD);
+	}
+
+	@Override
+	public boolean isPageOpened() {
+		throw new NotImplementedException(UNSUPPORTED_METHOD);
+	}
+
+	@Override
+	public boolean isMaleSelected() {
+		throw new NotImplementedException(UNSUPPORTED_METHOD);
+	}
+
+	@Override
+	public boolean isPrivacyChecked() {
+		throw new NotImplementedException(UNSUPPORTED_METHOD);
 	}
 
 }

@@ -17,7 +17,7 @@ public class LoginPage extends LoginPageBase implements IMobileUtils {
     @FindBy(id = "name")
     private ExtendedWebElement nameInputField;
 
-    @FindBy(id = "password")
+    @FindBy(id = "user_password")
     private ExtendedWebElement passwordInputField;
 
     @FindBy(id = "radio_male")
@@ -32,6 +32,9 @@ public class LoginPage extends LoginPageBase implements IMobileUtils {
     @FindBy(id = "login_button")
     private ExtendedWebElement loginBtn;
 
+    @FindBy(id = "loginForm")
+    private ExtendedWebElement loginForm;
+
     public LoginPage(WebDriver driver) {
         super(driver);
     }
@@ -41,6 +44,47 @@ public class LoginPage extends LoginPageBase implements IMobileUtils {
         nameInputField.type(name);
         hideKeyboard();
     }
+
+    @Override
+    public boolean isNamePresented() {
+        return nameInputField.isPresent();
+    }
+
+    @Override
+    public boolean isPassPresented(){
+        return passwordInputField.isPresent();
+    }
+
+    @Override
+    public boolean isNameEntered(String name) {
+        return nameInputField.getText().equals(name);
+    }
+
+    @Override
+    public boolean isPassEntered(String pass) {
+        return passwordInputField.getText().equals(pass);
+    }
+
+    @Override
+    public boolean isGenderPresented() {
+       return (maleRadioBtn.isPresent() && femaleRadioBtn.isPresent());
+    }
+
+    @Override
+    public boolean isPageOpened() {
+        return loginForm.isElementPresent();
+    }
+
+    @Override
+    public boolean isMaleSelected() {
+        return maleRadioBtn.isChecked();
+    }
+
+    @Override
+    public boolean isPrivacyChecked() {
+        return privacyPolicyCheckbox.isChecked();
+    }
+
 
     @Override
     public void typePassword(String password) {
@@ -76,6 +120,7 @@ public class LoginPage extends LoginPageBase implements IMobileUtils {
         typePassword(password);
         selectMaleSex();
         checkPrivacyPolicyCheckbox();
+
         return clickLoginBtn();
     }
 
